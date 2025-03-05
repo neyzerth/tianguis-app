@@ -8,7 +8,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema tianguisapp
 -- -----------------------------------------------------
 DROP DATABASE IF EXISTS tianguisapp;
-
+-- -----------------------------------------------------
+-- Schema tianguisapp
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `tianguisapp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 USE `tianguisapp` ;
 
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`category` (
   `name` VARCHAR(30) NOT NULL,
   `disable` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`code`))
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -128,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`status` (
   `name` VARCHAR(30) NOT NULL,
   `disable` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`code`))
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -159,7 +161,9 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`item` (
     REFERENCES `tianguisapp`.`category` (`code`),
   CONSTRAINT `fk_Item_owner`
     FOREIGN KEY (`owner`)
-    REFERENCES `tianguisapp`.`user` (`id`),
+    REFERENCES `tianguisapp`.`user` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
   CONSTRAINT `fk_Item_stand`
     FOREIGN KEY (`stand`)
     REFERENCES `tianguisapp`.`stand` (`id`),
@@ -200,10 +204,12 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`image` (
   `tianguis` BIGINT NULL DEFAULT NULL,
   `item` BIGINT NULL DEFAULT NULL,
   `stand` BIGINT NULL DEFAULT NULL,
+  `user` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Image_tianguis` (`tianguis` ASC) VISIBLE,
   INDEX `fk_Image_item` (`item` ASC) VISIBLE,
   INDEX `fk_Image_stand` (`stand` ASC) VISIBLE,
+  INDEX `fk_image_1_idx` (`user` ASC) VISIBLE,
   CONSTRAINT `fk_Image_item`
     FOREIGN KEY (`item`)
     REFERENCES `tianguisapp`.`item` (`id`)
@@ -214,7 +220,12 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`image` (
     REFERENCES `tianguisapp`.`stand` (`id`),
   CONSTRAINT `fk_Image_tianguis`
     FOREIGN KEY (`tianguis`)
-    REFERENCES `tianguisapp`.`tianguis` (`id`))
+    REFERENCES `tianguisapp`.`tianguis` (`id`),
+  CONSTRAINT `fk_image_1`
+    FOREIGN KEY (`user`)
+    REFERENCES `tianguisapp`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -251,9 +262,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tianguisapp`.`tianguis_suggestion` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `new_name` VARCHAR(128) NOT NULL,
+  `new_name` VARCHAR(128) NULL,
   `new_address` VARCHAR(500) NULL DEFAULT NULL,
-  `new_location` MULTILINESTRING SRID 4326 NOT NULL,
+  `new_location` MULTILINESTRING SRID 4326 NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `points` BIGINT NOT NULL DEFAULT 0,
   `tianguis_base` BIGINT NOT NULL,
@@ -304,6 +315,29 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`schedule_suggestion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tianguisapp`.`suggestion_response`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tianguisapp`.`suggestion_response` (
+  `suggestion` BIGINT NOT NULL,
+  `user` BIGINT NOT NULL,
+  `approve` TINYINT NOT NULL,
+  PRIMARY KEY (`suggestion`, `user`),
+  INDEX `fk_tianguis_suggestion_idx` (`user` ASC) VISIBLE,
+  CONSTRAINT `fk_suggestion_user_response`
+    FOREIGN KEY (`suggestion`)
+    REFERENCES `tianguisapp`.`tianguis_suggestion` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tianguis_base_suggestion`
+    FOREIGN KEY (`user`)
+    REFERENCES `tianguisapp`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
