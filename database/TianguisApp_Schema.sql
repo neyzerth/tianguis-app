@@ -188,10 +188,9 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`item` (
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `disable` TINYINT NOT NULL DEFAULT '0',
-  `cover_image` VARCHAR(45) NULL,
   `stand` BIGINT NULL DEFAULT NULL,
-  `category` VARCHAR(5) NULL DEFAULT NULL,
   `owner` BIGINT NOT NULL,
+  `category` VARCHAR(5) NULL DEFAULT NULL,
   `status` VARCHAR(5) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Item_stand` (`stand` ASC) VISIBLE,
@@ -200,7 +199,9 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`item` (
   INDEX `fk_Item_status` (`status` ASC) VISIBLE,
   CONSTRAINT `fk_Item_category`
     FOREIGN KEY (`category`)
-    REFERENCES `tianguisapp`.`category` (`code`),
+    REFERENCES `tianguisapp`.`category` (`code`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
   CONSTRAINT `fk_Item_owner`
     FOREIGN KEY (`owner`)
     REFERENCES `tianguisapp`.`user` (`id`)
@@ -211,7 +212,9 @@ CREATE TABLE IF NOT EXISTS `tianguisapp`.`item` (
     REFERENCES `tianguisapp`.`stand` (`id`),
   CONSTRAINT `fk_Item_status`
     FOREIGN KEY (`status`)
-    REFERENCES `tianguisapp`.`status` (`code`))
+    REFERENCES `tianguisapp`.`status` (`code`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
