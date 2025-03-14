@@ -16,6 +16,10 @@ export default function AddItem({ navigation }) {
     navigation.goBack();
   };
 
+  const handleUploadPhoto = () => {
+   
+    console.log('Subiendo foto');
+  };
 
   return (
     <View style={styles.container}>
@@ -54,7 +58,7 @@ export default function AddItem({ navigation }) {
             style={styles.input}
             value={name}
             onChangeText={setName}
-            placeholder="Lego Star Wars R2D2"
+            placeholder=""
           />
         </View>
 
@@ -64,7 +68,7 @@ export default function AddItem({ navigation }) {
             style={styles.input}
             value={description}
             onChangeText={setDescription}
-            placeholder="R2-D2 buildable toy figure"
+            placeholder=""
             multiline
           />
         </View>
@@ -75,7 +79,7 @@ export default function AddItem({ navigation }) {
             style={styles.input}
             value={price}
             onChangeText={setPrice}
-            placeholder="$1,100"
+            placeholder=""
             keyboardType="numeric"
           />
         </View>
@@ -86,7 +90,7 @@ export default function AddItem({ navigation }) {
             style={styles.input}
             value={status}
             onChangeText={setStatus}
-            placeholder="Used"
+            placeholder=""
           />
         </View>
 
@@ -96,7 +100,7 @@ export default function AddItem({ navigation }) {
             style={styles.input}
             value={category}
             onChangeText={setCategory}
-            placeholder="Toys"
+            placeholder=""
           />
         </View>
       </ScrollView>
