@@ -1,66 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 
+export default function Login() {
+  const navigation = useNavigation();
 
-export default function App() {
+  const handleLogin = () => {
+    console.log("Intento de login");
+    navigation.navigate('SellerHome');
+
+  };
+
   return (
     <View style={styles.container}>
         <Image
             style={styles.logo}
-            source={require('../../../assets/images/tianguisBlack.png')}
+            source={require('../../../assets/images/tianguisBlack.png')} 
         />
         <Text style={styles.title}>Log in</Text>
         <Text style={styles.subtitle}>Log in with social networks</Text>
         <View style={styles.social}>
             <Pressable style={styles.btnSocial}>
-                <Icon
-                    name="facebook"
-                    size={30}
-                    color="#fff"
-                />
+                <Icon name="facebook" size={30} color="#fff" />
             </Pressable>
             <Pressable style={styles.btnSocial}>
-                <Icon
-                    name="instagram"
-                    size={30}
-                    color="#fff"
-                />
+                <Icon name="instagram" size={30} color="#fff" />
             </Pressable>
             <Pressable style={styles.btnSocial}>
-                <Icon
-                    name="google"
-                    size={30}
-                    color="#fff"
-                />
+                <Icon name="google" size={30} color="#fff" />
             </Pressable>
         </View>
         <Text style={styles.subtitle}>Or</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="text"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          keyboardType="text"
-          secureTextEntry={true}
-        />
+        <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
+        <TextInput style={styles.input} placeholder="Password" secureTextEntry={true} />
         <Pressable style={styles.btnForgot}>
             <Text style={styles.btnForgotText}>Forgot Password?</Text>
         </Pressable>
         
-        <Pressable style={styles.btnLogin}>
+        <Pressable style={styles.btnLogin} onPress={handleLogin}>
             <Text style={styles.btnLoginText}>Log in</Text>
         </Pressable>
         
-        <Pressable style={styles.btnSignup}>
+        <Pressable style={styles.btnSignup} onPress={() => navigation.navigate('Signup')}>
             <Text style={styles.btnSignupText}>Sign up</Text>
-            onPress={() => navigation.navigate('Signup')}
         </Pressable>
-        <StatusBar style="auto" />
     </View>
   );
 }
@@ -76,7 +60,6 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     padding: 10,
     justifyContent: 'space-between',
-
   },
   logo:{
     position: 'absolute',
@@ -141,5 +124,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#aaa'
   }
-  
 });

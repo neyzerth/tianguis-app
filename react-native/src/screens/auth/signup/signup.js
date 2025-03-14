@@ -1,71 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import React, { useMemo, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import RadioGroup from 'react-native-radio-buttons-group';
-import TianguisButton from '../../../components/TianguisButton';
-import TianguisButtonText from '../../../components/TianguisButtonText';
-import TextBox from '../../../components/TextBox';
-import {TianguisColors} from '../../../constants/TianguisColors';
 import { useNavigation } from "@react-navigation/native";
 
+import { 
+  TianguisButton, 
+  TianguisButtonText, 
+  TextBox, 
+  TianguisColors 
+} from '../../../components/TianguisComponents'; 
 
-export default function App() {
+export default function SignupScreen() {
+  const navigation = useNavigation();
+  
+  const radioButtons = useMemo(() => ([
+    { id: '1', label: 'Seller', value: 'seller', color: TianguisColors.red },
+    { id: '2', label: 'Buyer', value: 'buyer', color: TianguisColors.red }
+  ]), []);
 
-    const radioButtons = useMemo(() => ([
-        {
-            id: '1',
-            label: 'Seller',
-            value: 'seller',
-            color: TianguisColors.red
-        },
-        {
-            id: '2',
-            label: 'Buyer',
-            value: 'buyer',
-            color: TianguisColors.red
-        }
-    ]), []);
-
-    const [selectedId, setSelectedId] = useState();
+  const [selectedId, setSelectedId] = useState();
 
   return (
     <View style={styles.container}>
         <Text style={styles.title}>Sign up</Text>
         <Text style={styles.subtitle}>Create your account</Text>
 
-        <TextBox
-            placeholder="Name"
-            keyboardType="text"
-        />
-        <TextBox
-            placeholder="Last name"
-            keyboardType="text"
-        />
-        <TextBox
-            placeholder="Email"
-            keyboardType="text"
-        />
-        <TextBox
-            placeholder="Phone"
-            keyboardType="numeric"
-        />
-        <TextBox
-            placeholder="Password"
-            keyboardType="text"
-            secureText={true}
-        />
+        <TextBox placeholder="Name" keyboardType="default" />
+        <TextBox placeholder="Last name" keyboardType="default" />
+        <TextBox placeholder="Email" keyboardType="email-address" />
+        <TextBox placeholder="Phone" keyboardType="numeric" />
+        <TextBox placeholder="Password" keyboardType="default" secureText={true} />
 
-        <RadioGroup 
-            radioButtons={radioButtons} 
-            onPress={setSelectedId}
-            selectedId={selectedId}
-        />
+        <RadioGroup radioButtons={radioButtons} onPress={setSelectedId} selectedId={selectedId} />
 
-        <TianguisButton text="Sign up" color={TianguisColors.red}></TianguisButton>
-
-        <TianguisButtonText text="Log in"></TianguisButtonText>
+        <TianguisButton text="Sign up" color={TianguisColors.red} />
         
-        <StatusBar style="auto" />
+        <TianguisButtonText text="Log in" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }
