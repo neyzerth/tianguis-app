@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
+import { BlackLogo } from '../../../components/Logo';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -14,10 +15,7 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-        <Image
-            style={styles.logo}
-            source={require('../../../assets/images/tianguisBlack.png')} 
-        />
+        <BlackLogo/>
         <Text style={styles.title}>Log in</Text>
         <Text style={styles.subtitle}>Log in with social networks</Text>
         <View style={styles.social}>
