@@ -14,7 +14,7 @@ function Logo({ source, size = 200 }) {
 export function BlackLogo({ size = 200 }) {
     return (
         <Logo 
-            source={require('../assets/images/tianguisBlack.png')}
+            source={require('../../assets/tianguis-black.png')}
             size={size}
         />
     );
@@ -23,7 +23,7 @@ export function BlackLogo({ size = 200 }) {
 export function WhiteLogo({ size = 200 }) {
     return (
         <Logo
-            source={require('../assets/images/tianguisWhite.png')}
+            source={require('../../assets/tianguis-white.png')}
             size={size}
         />
     );
