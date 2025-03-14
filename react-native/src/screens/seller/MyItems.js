@@ -16,12 +16,14 @@ export default function MyItems({ navigation }) {
 
   const renderProduct = ({ item }) => (
     <View style={styles.productCard}>
-      <Image
-        source={{ uri: item.image }}
-        style={styles.productImage}
-      />
-      <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
-      <Text style={styles.productName}>{item.name}</Text>
+      <Pressable onPress={() => navigation.push('Item')}>
+        <Image
+          source={{ uri: item.image }}
+          style={styles.productImage}
+        />
+        <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+        <Text style={styles.productName}>{item.name}</Text>
+      </Pressable>
     </View>
   );
 
