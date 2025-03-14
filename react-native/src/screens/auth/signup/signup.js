@@ -3,12 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import RadioGroup from 'react-native-radio-buttons-group';
 import { useNavigation } from "@react-navigation/native";
-
+import {TianguisColors} from '../../../constants/TianguisColors';
 import { 
   TianguisButton, 
   TianguisButtonText, 
-  TextBox, 
-  TianguisColors 
+  TextBox
 } from '../../../components/TianguisComponents'; 
 
 export default function SignupScreen() {
@@ -20,7 +19,7 @@ export default function SignupScreen() {
   ]), []);
 
   const [selectedId, setSelectedId] = useState();
-
+  
   return (
     <View style={styles.container}>
         <Text style={styles.title}>Sign up</Text>
