@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TianguisColors } from '../../constants/TianguisColors';
-import ItemCatalog from '../../components/ItemCatalog';
+import ItemCatalog from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
 export default function MyItems({ navigation }) {
