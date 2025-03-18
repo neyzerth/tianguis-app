@@ -40,10 +40,3 @@ If you want to install the dependences, run:
 ```bash
 ./start.sh --i
 ```
-
-
-> **Note**: En Windows, si usas PowerShell en lugar de CMD, puedes usar:
-> ```powershell
-> Remove-Item -Recurse -Force node_modules
-> Remove-Item package-lock.json
-> ```
