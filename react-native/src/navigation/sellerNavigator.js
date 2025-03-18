@@ -16,6 +16,7 @@ export default function SellerNavigator() {
     <Tab.Navigator
       initialRouteName="MyItems"
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: "#f44336",
         tabBarInactiveTintColor: "#857b7b",
       }}
