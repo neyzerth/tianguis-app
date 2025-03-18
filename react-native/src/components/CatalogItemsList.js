@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, FlatList, Pressable, Platform } from 're
 import { Ionicons } from '@expo/vector-icons';
 import { TianguisColors } from '../constants/TianguisColors';
 
-export default function ItemCatalog({ navigation, products, onToggleFavorite, showFavorites = false }) {
+export default function CatalogItemsList({ navigation, products, onToggleFavorite, showFavorites = false }) {
     const getImageSource = () => {
         if (Platform.OS === 'web') {
             return { uri: require('../../assets/item-default.png').uri };

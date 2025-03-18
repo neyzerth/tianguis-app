@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { TianguisColors } from '../../constants/TianguisColors';
 import CatalogHeader from '../../components/CatalogHeader';
-import ItemCatalog from '../../components/CatalogItemsList';
+import CatalogItemsList from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
 export default function MyItems({ navigation }) {
@@ -62,7 +62,7 @@ export default function MyItems({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <ItemCatalog navigation={navigation} products={filteredProducts} />
+      <CatalogItemsList navigation={navigation} products={filteredProducts} />
     </View>
   );
 }

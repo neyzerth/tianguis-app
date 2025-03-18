@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 16,
-        paddingTop: 40,
+        paddingTop: 60,
         paddingBottom: 10,
         backgroundColor: TianguisColors.background,
     },

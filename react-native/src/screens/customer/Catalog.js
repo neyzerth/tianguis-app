@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TianguisColors } from '../../constants/TianguisColors';
 import CatalogHeader from '../../components/CatalogHeader';
-import ItemCatalog from '../../components/CatalogItemsList';
+import CatalogItemsList from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
 export default function Catalog({ navigation }) {
@@ -39,7 +39,7 @@ export default function Catalog({ navigation }) {
 
       <SearchBar placeholder="Search"/>
 
-      <ItemCatalog 
+      <CatalogItemsList 
         navigation={navigation} 
         products={products} 
         onToggleFavorite={toggleFavorite}
