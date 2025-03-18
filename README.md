@@ -1,24 +1,46 @@
 # Tianguis App
 
-## Reset package problem
+## How Start the proyect
 
-### Linux/Mac
-```bash
-cd react-native
-rm -rf node_modules/
-rm package-lock.json
-npm cache clean --force
-npm install
-```
+### In CLI
+1. Go to ```...react-native/```
+2. To install dependences, run: ```npm install```
+3. When you have the dependeces, run it with ```npx expo start```
+4. If you want to re-install the dependences:
+   1.  Delete ```node-modules/```
+   2.  Delete ```package-lock.json```  
+   3.  Clean npm cache with ```npm cache clean --force```
+   4.  Run ```npm install```
 
-### Windows
+### With scripts
+
+#### Windows
+Run the script in cmd:
 ```cmd
-cd react-native
-rmdir /s /q node_modules
-del package-lock.json
-npm cache clean --force
-npm install
+start.bat
 ```
+
+If you want to install the dependences, run:
+```cmd
+start.sh --i
+```
+
+#### Linux/Mac
+Ensure the script have permission to execute
+```bash
+chmod +x start.sh
+```
+
+And execute the script:
+```bash
+./start.sh
+```
+
+If you want to install the dependences, run:
+```bash
+./start.sh --i
+```
+
 
 > **Note**: En Windows, si usas PowerShell en lugar de CMD, puedes usar:
 > ```powershell
