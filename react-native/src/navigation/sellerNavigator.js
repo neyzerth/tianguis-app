@@ -5,7 +5,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 // Importar pantallas del vendedor
-import MyItems from '../screens/seller/MyItems';
+import MyItems from '../screens/customer/Catalog';
 import MyStands from '../screens/seller/MyStands';
 import Profile from '../screens/seller/Profile';
 

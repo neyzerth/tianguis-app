@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
 import { TianguisColors } from '../../constants/TianguisColors';
+import CatalogHeader from '../../components/CatalogHeader';
 import ItemCatalog from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
@@ -17,7 +17,7 @@ export default function MyItems({ navigation }) {
     { id: '8', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
     { id: '9', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
     { id: '10', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-];
+  ];
 
   const [activeFilter, setActiveFilter] = useState('available');
  
@@ -25,23 +25,14 @@ export default function MyItems({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.title}>My Items</Text>
-        <TouchableOpacity 
-          style={styles.addButton}
-          onPress={() => navigation.navigate('AddItem')}
-        >
-          <Ionicons name="add" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <CatalogHeader 
+        title="My Items"
+        navigation={navigation}
+        showBackButton={true}
+        showAddButton={true}
+        onAddPress={() => navigation.navigate('AddItem')}
+      />
 
-      {/*  Barra de búsqueda */}
       <SearchBar placeholder="Search"/>
 
       {/* Filtros */}
@@ -71,7 +62,6 @@ export default function MyItems({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Lista de productos */}
       <ItemCatalog navigation={navigation} products={filteredProducts} />
     </View>
   );
@@ -81,25 +71,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: TianguisColors.lightGrayBackground,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 40,
-    paddingBottom: 10,
-    backgroundColor: TianguisColors.background,
-  },
-  backButton: {
-    padding: 5,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  addButton: {
-    padding: 5,
   },
   filterContainer: {
     flexDirection: 'row',
@@ -134,5 +105,4 @@ const styles = StyleSheet.create({
     color: TianguisColors.redText,
     fontWeight: 'bold',
   },
- 
 });
