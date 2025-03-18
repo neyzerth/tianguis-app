@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 import { TianguisColors } from '../../constants/TianguisColors';
 import ItemCatalog from '../../components/ItemCatalog';
+import SearchBar from '../../components/SearchBar';
 
 export default function MyItems({ navigation }) {
   const products = [
@@ -41,14 +42,7 @@ export default function MyItems({ navigation }) {
       </View>
 
       {/*  Barra de búsqueda */}
-      <View style={styles.searchBar}>
-        <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search"
-          placeholderTextColor="#999"
-        />
-      </View>
+      <SearchBar placeholder="Search"/>
 
       {/* Filtros */}
       <View style={styles.filterContainer}>
@@ -106,23 +100,6 @@ const styles = StyleSheet.create({
   },
   addButton: {
     padding: 5,
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: TianguisColors.grayBox,
-    borderRadius: 8,
-    marginHorizontal: 16,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    height: 40,
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    height: 40,
   },
   filterContainer: {
     flexDirection: 'row',
