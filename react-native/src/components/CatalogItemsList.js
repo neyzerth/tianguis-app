@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, FlatList, Pressable, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { TianguisColors } from '../constants/TianguisColors';
 
 export default function ItemCatalog({ navigation, products }) {
-    // Manejo diferente de imágenes para web y nativo
     const getImageSource = () => {
         if (Platform.OS === 'web') {
             return { uri: require('../../assets/item-default.png').uri };
@@ -18,7 +18,15 @@ export default function ItemCatalog({ navigation, products }) {
                     source={item.image ? { uri: item.image } : getImageSource()}
                     style={styles.productImage}
                 />
-                <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+                <View style={styles.priceContainer}>
+                    <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+                    <Ionicons 
+                        name={item.favorite ? "heart" : "heart-outline"}
+                        size={25}
+                        color="#000"
+                        style={styles.favoriteIcon}
+                    />
+                </View>
                 <Text style={styles.productName}>{item.name}</Text>
             </Pressable>
         </View>
@@ -53,11 +61,19 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 8,
+    marginLeft: 8,
+  },
+  favoriteIcon: {
+    marginRight: 4,
+  },
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginTop: 8,
-    marginLeft: 8,
   },
   productName: {
     fontSize: 14,
