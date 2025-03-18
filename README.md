@@ -25,6 +25,11 @@ If you want to install the dependences, run:
 start.sh --i
 ```
 
+If you want to re-install all the dependences, run:
+```cmd
+start.sh --r
+```
+
 #### Linux/Mac
 Ensure the script have permission to execute
 ```bash
@@ -39,4 +44,9 @@ And execute the script:
 If you want to install the dependences, run:
 ```bash
 ./start.sh --i
+```
+
+If you want to re-install all the dependences, run:
+```bash
+./start.sh --r
 ```
