@@ -11,4 +11,5 @@ export const TianguisColors = {
     greenBackground:'#e8f5e9',
     greenBorder:'#4caf50',
     greenText: '#4caf50',
+    placeholder:'#999'
 };
