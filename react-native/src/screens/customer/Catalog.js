@@ -6,7 +6,7 @@ import ItemCatalog from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
 export default function Catalog({ navigation }) {
-  const products = [
+  const [products, setProducts] = useState([
     { id: '1', name: 'Lego Back to the future', price: 1200.00, image: '', state: 'available', favorite: false },
     { id: '2', name: 'Lego Speed Ford', price: 1500.00, image: '', state: 'sold', favorite: true },
     { id: '3', name: 'Lego Speed McLaren', price: 1300.00, image: '', state: 'available', favorite: false  },
@@ -17,7 +17,17 @@ export default function Catalog({ navigation }) {
     { id: '8', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available', favorite: false  },
     { id: '9', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available', favorite: false  },
     { id: '10', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available', favorite: true },
-  ];
+  ]);
+
+  const toggleFavorite = (id) => {
+    setProducts(prevProducts => 
+      prevProducts.map(product => 
+        product.id === id 
+          ? { ...product, favorite: !product.favorite }
+          : product
+      )
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -29,7 +39,12 @@ export default function Catalog({ navigation }) {
 
       <SearchBar placeholder="Search"/>
 
-      <ItemCatalog navigation={navigation} products={products} />
+      <ItemCatalog 
+        navigation={navigation} 
+        products={products} 
+        onToggleFavorite={toggleFavorite}
+        showFavorites={true}
+      />
     </View>
   );
 }

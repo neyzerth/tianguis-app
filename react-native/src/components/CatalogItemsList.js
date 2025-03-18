@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, FlatList, Pressable, Platform } from 're
 import { Ionicons } from '@expo/vector-icons';
 import { TianguisColors } from '../constants/TianguisColors';
 
-export default function ItemCatalog({ navigation, products }) {
+export default function ItemCatalog({ navigation, products, onToggleFavorite, showFavorites = false }) {
     const getImageSource = () => {
         if (Platform.OS === 'web') {
             return { uri: require('../../assets/item-default.png').uri };
@@ -20,12 +20,22 @@ export default function ItemCatalog({ navigation, products }) {
                 />
                 <View style={styles.priceContainer}>
                     <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
-                    <Ionicons 
-                        name={item.favorite ? "heart" : "heart-outline"}
-                        size={25}
-                        color="#000"
-                        style={styles.favoriteIcon}
-                    />
+                    {showFavorites && (
+                        <Pressable 
+                            onPress={() => onToggleFavorite(item.id)}
+                            style={({ pressed }) => [
+                                styles.favoriteButton,
+                                pressed && styles.pressed
+                            ]}
+                        >
+                            <Ionicons 
+                                name={item.favorite ? "heart" : "heart-outline"}
+                                size={25}
+                                color='black'
+                                style={styles.favoriteIcon}
+                            />
+                        </Pressable>
+                    )}
                 </View>
                 <Text style={styles.productName}>{item.name}</Text>
             </Pressable>
@@ -81,5 +91,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 8,
     marginBottom: 8,
+  },
+  favoriteButton: {
+    padding: 8,
+    marginRight: -4, // Compensa el padding
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });

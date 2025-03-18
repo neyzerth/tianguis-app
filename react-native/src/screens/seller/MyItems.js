@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { TianguisColors } from '../../constants/TianguisColors';
 import CatalogHeader from '../../components/CatalogHeader';
 import ItemCatalog from '../../components/CatalogItemsList';
