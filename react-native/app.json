@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "test",
-    "slug": "test",
+    "name": "tianguis-app",
+    "slug": "tianguis-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/tianguis-white.png",
