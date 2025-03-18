@@ -32,7 +32,9 @@ export default function MyItems({ navigation }) {
         >
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>Items</Text>
+        <Text style={styles.title}>Items Near Me</Text>
+        {/*//TODO: temporal fix to center title xd */}
+        <View></View>
       </View>
 
       {/*  Barra de búsqueda */}
