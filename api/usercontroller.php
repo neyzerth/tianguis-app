@@ -1,4 +1,4 @@
-p<?php
+<?php
     require_once('models/user.php');
     require_once('models/message.php');
     //GET
