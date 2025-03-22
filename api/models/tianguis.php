@@ -25,7 +25,7 @@ class Tianguis {
         $this->location = $data['location'] ?? '';
         $this->created_at = $data['created_at'] ?? date('Y-m-d H:i:s');
         $this->updated_at = $data['updated_at'] ?? date('Y-m-d H:i:s');
-        $this->disable = $data['disable'] ?? 0;
+        $this->disable = false;
     }
 
     public function add() {
@@ -40,6 +40,40 @@ class Tianguis {
         return $stmt->execute()
             ? Message::get_message(0, 'Tianguis added successfully')
             : Message::get_message(1, 'Could not add tianguis');
+    }
+
+    private function parseLocation($locationStr) {
+        if (empty($locationStr)) return null;
+        
+        if (strpos($locationStr, 'POINT') === 0) {
+            // Handle POINT(lng lat)
+            preg_match('/POINT\((.*?)\)/', $locationStr, $matches);
+            if (isset($matches[1])) {
+                list($lng, $lat) = explode(' ', $matches[1]);
+                return [
+                    'type' => 'Point',
+                    'coordinates' => [$lng, $lat]
+                ];
+            }
+        } else if (strpos($locationStr, 'MULTILINESTRING') === 0) {
+            // Handle MULTILINESTRING((lng lat, lng lat),(lng lat, lng lat))
+            preg_match('/MULTILINESTRING\((.*)\)/', $locationStr, $matches);
+            if (isset($matches[1])) {
+                $lines = explode('),(', trim($matches[1], '()'));
+                $coordinates = array_map(function($line) {
+                    return array_map(function($point) {
+                        list($lng, $lat) = explode(' ', $point);
+                        return [(float)$lng, (float)$lat];
+                    }, explode(',', $line));
+                }, $lines);
+                
+                return [
+                    'type' => 'MultiLineString',
+                    'coordinates' => $coordinates
+                ];
+            }
+        }
+        return null;
     }
 
     public static function get($id = null) {
@@ -62,6 +96,8 @@ class Tianguis {
 
         $tianguis = [];
         while ($row = $result->fetch_assoc()) {
+            // Parse location string to GeoJSON format
+            $row['location'] = (new self)->parseLocation($row['location']);
             $tianguis[] = $row;
         }
 
