@@ -27,7 +27,7 @@ CREATE TABLE `category` (
   `name` varchar(30) NOT NULL,
   `disable` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES ('ALIME','Alimentos y Bebidas',0),('ARTES','Artesanías',0),('ROPA','Ropa y Accesorios',0),('HOGAR','Hogar y Decoración',0),('JARDI','Jardinería',0),('ELEC','Electronica',0);
+INSERT INTO `category` VALUES ('ALIME','Alimentos y Bebidas',0),('ARTES','Artesanías',0),('ELEC','Electronica',0),('HOGAR','Hogar y Decoración',0),('JARDI','Jardinería',0),('ROPA','Ropa y Accesorios',0);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,13 +116,13 @@ CREATE TABLE `item` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `description` varchar(1028) DEFAULT NULL,
-  `price` decimal(5,2) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
   `selled` tinyint NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `disable` tinyint NOT NULL DEFAULT '0',
   `stand` bigint DEFAULT NULL,
-  `owner` bigint NOT NULL,
+  `owner` bigint DEFAULT NULL,
   `status` varchar(5) DEFAULT NULL,
   `category` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -134,7 +134,7 @@ CREATE TABLE `item` (
   CONSTRAINT `fk_Item_owner` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Item_stand` FOREIGN KEY (`stand`) REFERENCES `stand` (`id`),
   CONSTRAINT `fk_Item_status` FOREIGN KEY (`status`) REFERENCES `status` (`code`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,6 +143,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'Tacos al pastor','Orden de 5 tacos',75.50,0,'2024-01-01 16:00:00','2024-01-01 16:00:00',0,NULL,1,'NEW','ALIME'),(2,'Pulsera artesanal','Hecha a mano',120.00,1,'2024-01-02 17:00:00','2024-01-03 18:00:00',0,NULL,3,'SEMI','ARTES'),(3,'Jeans vintage','Talla 28',200.00,0,'2024-01-03 18:00:00','2024-01-03 18:00:00',0,3,NULL,'USED','ROPA'),(4,'Sillón antiguo','Madera tallada',500.00,0,'2024-01-04 19:00:00','2024-01-04 19:00:00',0,4,NULL,'REPA','HOGAR'),(5,'Suculenta','Planta pequeña',50.00,0,'2024-01-05 20:00:00','2024-01-05 20:00:00',0,NULL,5,'PERF','JARDI'),(6,'Smartphone usado','Samsung Galaxy S20',4500.00,0,'2024-02-01 17:30:00','2024-02-01 17:30:00',0,6,NULL,'USED','ELEC'),(7,'Quesadillas','Orden de 3 quesadillas con salsa',60.00,0,'2024-02-02 18:15:00','2024-02-02 18:15:00',0,NULL,1,'NEW','ALIME'),(8,'Collar artesanal','Hecho con chaquira',180.00,0,'2024-02-03 19:20:00','2024-02-03 19:20:00',0,NULL,3,'PERF','ARTES'),(9,'Playera estampada','Talla mediana',150.00,1,'2024-02-04 20:45:00','2024-02-04 23:30:00',0,3,NULL,'NEW','ROPA'),(10,'Maceta decorativa','Cerámica pintada a mano',120.00,0,'2024-02-05 22:10:00','2024-02-05 22:10:00',0,NULL,5,'SEMI','JARDI'),(11,'Audífonos inalámbricos','Bluetooth con estuche',350.00,0,'2024-02-06 17:00:00','2024-02-06 17:00:00',0,6,6,'NEW','ELEC'),(12,'Tamales','Docena variados (verde, mole, rajas)',180.00,0,'2024-02-07 18:30:00','2024-02-07 18:30:00',0,NULL,1,'NEW','ALIME'),(13,'Aretes de plata','Diseño tradicional mexicano',250.00,0,'2024-02-08 19:45:00','2024-02-08 19:45:00',0,NULL,3,'NEW','ARTES'),(14,'Pantalones de mezclilla','Talla 32',280.00,0,'2024-02-09 21:15:00','2024-02-09 21:15:00',0,3,NULL,'SEMI','ROPA'),(15,'Planta de sábila','Medicinal y decorativa',65.00,0,'2024-02-10 23:00:00','2024-02-10 23:00:00',0,NULL,5,'PERF','JARDI');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +290,7 @@ CREATE TABLE `status` (
   `name` varchar(30) NOT NULL,
   `disable` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -298,6 +299,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
+INSERT INTO `status` VALUES ('NEW','Nuevo',0),('PERF','Perfecto estado',0),('REPA','Para reparar',0),('SEMI','Semi nuevo',0),('USED','Usado',0);
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -521,6 +523,32 @@ DELIMITER ;
 --
 -- Dumping routines for database 'tianguisapp'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `login` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login`(
+    IN p_email VARCHAR(100), 
+    IN p_password VARCHAR(100),
+    OUT p_user_id BIGINT
+)
+BEGIN
+    SELECT id INTO p_user_id 
+    FROM user 
+    WHERE email = p_email 
+    AND password = SHA1(p_password);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -531,4 +559,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-22 13:21:43
+-- Dump completed on 2025-03-22 14:13:30
