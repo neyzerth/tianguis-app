@@ -11,7 +11,7 @@
     //correct URI
     if (sizeof($uriParts) == 3) {
         //get URI info
-        $controller = $uriParts[1];
+        $controller = 'controllers/'.$uriParts[1];
         //parameter
         $parameter = $uriParts[sizeof($uriParts) - 1];
         //send to controllers
@@ -19,7 +19,7 @@
         if (file_exists($controller))
             require_once($controller); 
         else
-            echo json_encode(array('status' => 998,'errorMessage' => 'Invalid Controller'));
+            echo json_encode(array('status' => 998,'errorMessage' => 'Invalid Controller '.$controller));
     }
     else
         echo json_encode(array('status' => 999, 'errorMessage' => 'Invalid URI'));
