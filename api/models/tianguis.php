@@ -4,10 +4,24 @@ require_once('message.php');
 
 class Tianguis {
     private static $select_all = "SELECT 
-        id, name, address, 
-        ST_AsText(location) as location,
-        created_at, updated_at, disable 
-        FROM tianguis ORDER BY id";
+        t.id, t.name, t.address, 
+        ST_AsText(t.location) as location,
+        t.created_at, t.updated_at, t.disable 
+        FROM tianguis t ORDER BY t.id";
+        
+    private static $select_schedules = "SELECT 
+        day, tianguis, open_time, close_time 
+        FROM tianguis_schedule 
+        WHERE tianguis = ? 
+        ORDER BY FIELD(day, 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')";
+        
+    private static $select_stands = "SELECT 
+        s.id, s.name, s.description, s.created_at, s.disable, s.owner, s.category,
+        sl.id as location_id, sl.address, ST_AsText(sl.location) as location, sl.tianguis_dependece
+        FROM stand s
+        INNER JOIN stand_location sl ON sl.stand_info = s.id
+        WHERE sl.tianguis = ?";
+
     private static $select_one = "SELECT 
         id, name, address, 
         ST_AsText(location) as location,
@@ -81,7 +95,7 @@ class Tianguis {
         if ($id === null) {
             $stmt = $conn->prepare(self::$select_all);
         } else {
-            $stmt = $conn->prepare(self::$select_one);
+            $stmt = $conn->prepare(self::$select_all . " WHERE t.id = ?");
             $stmt->bind_param('i', $id);
         }
 
@@ -90,14 +104,34 @@ class Tianguis {
         }
 
         $result = $stmt->get_result();
-        if (!$result) {
-            return Message::get_message(1, 'Error getting result: ' . $conn->error);
-        }
-
         $tianguis = [];
+
         while ($row = $result->fetch_assoc()) {
-            // Parse location string to GeoJSON format
+            // Parse location to GeoJSON
             $row['location'] = (new self)->parseLocation($row['location']);
+            
+            // Get schedules for this tianguis
+            $scheduleStmt = $conn->prepare(self::$select_schedules);
+            $scheduleStmt->bind_param('i', $row['id']);
+            $scheduleStmt->execute();
+            $scheduleResult = $scheduleStmt->get_result();
+            $row['schedules'] = [];
+            while ($schedule = $scheduleResult->fetch_assoc()) {
+                $row['schedules'][] = $schedule;
+            }
+
+            // Get stands for this tianguis
+            $standStmt = $conn->prepare(self::$select_stands);
+            $standStmt->bind_param('i', $row['id']);
+            $standStmt->execute();
+            $standResult = $standStmt->get_result();
+            $row['stands'] = [];
+            while ($stand = $standResult->fetch_assoc()) {
+                // Parse stand location to GeoJSON
+                $stand['location'] = (new self)->parseLocation($stand['location']);
+                $row['stands'][] = $stand;
+            }
+
             $tianguis[] = $row;
         }
 
