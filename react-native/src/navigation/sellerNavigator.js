@@ -1,15 +1,29 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-// Importar pantallas del vendedor
+// pantallas del vendedor
 import MyItems from '../screens/seller/MyItems';
 import MyStands from '../screens/seller/MyStands';
 import Profile from '../screens/seller/Profile';
+import WhatDoYouSell from '../screens/seller/whatDoYouSell';
+import WhereDoYouSell from '../screens/seller/whereDoYouSell';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+function StandsStackNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="StandsHome" component={MyStands} />
+      <Stack.Screen name="WhatDoYouSell" component={WhatDoYouSell} />
+      <Stack.Screen name="WhereDoYouSell" component={WhereDoYouSell} />
+    </Stack.Navigator>
+  );
+}
 
 export default function SellerNavigator() {
   return (
@@ -33,7 +47,7 @@ export default function SellerNavigator() {
       />
       <Tab.Screen 
         name="MyStands" 
-        component={MyStands} 
+        component={StandsStackNavigator} 
         options={{
           title: "My Stands",
           tabBarIcon: ({ color, size }) => (
