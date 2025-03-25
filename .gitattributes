@@ -7,3 +7,4 @@ package-lock.json merge=npm-merge-driver
 
 # Asegurarte de que el contenido de la carpeta react-native se cuente
 react-native/** linguist-vendored=false
+database/** linguist-vendored=false
