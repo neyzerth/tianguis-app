@@ -13,7 +13,7 @@ export default function CatalogItemsList({ navigation, products, onToggleFavorit
     
     const renderProduct = ({ item }) => (
         <View style={styles.productCard}>
-            <Pressable onPress={() => navigation.push('Item')}>
+            <Pressable onPress={() => navigation.push('Item', {item:item})}>
                 <Image
                     source={item.image ? { uri: item.image } : getImageSource()}
                     style={styles.productImage}

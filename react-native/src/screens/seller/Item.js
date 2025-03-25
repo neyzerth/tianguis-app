@@ -1,8 +1,27 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
 
 export default function MyItems({ navigation }) {
+  const route = useRoute();
+  const { item } = route.params || {};
+  
+  const [name, setName] = useState(item?.name || '');
+  const [description, setDescription] = useState(item?.description || '');
+  const [price, setPrice] = useState(item?.price || '');
+  const [status, setStatus] = useState(item?.status || '');
+  const [category, setCategory] = useState(item?.category || '');
+  const [photo, setPhoto] = useState('');
+
+  const itemData = {
+    name: name,
+    price: price,
+    description: description,
+    status: status,
+    category: category,
+    photo: photo,
+  };
 
   return (
     <View style={styles.container}>
@@ -16,8 +35,8 @@ export default function MyItems({ navigation }) {
             style={styles.productImage}
         />
         <View style={styles.info}>
-            <Text style={styles.productPrice}>$1200.00</Text>
-            <Text style={styles.productName}>Lego Back to the Future</Text>
+            <Text style={styles.productPrice}>${price}</Text>
+            <Text style={styles.productName}>{name}</Text>
         </View>
 
         <View style={styles.actionButtons}>
@@ -43,14 +62,13 @@ export default function MyItems({ navigation }) {
             </View>
         </Pressable>
         
-        <Pressable onPress={() => navigation.push('EditItem')}>
+        <Pressable onPress={() => navigation.push('EditItem', {item:itemData})}>
             <View style={styles.actionText}>
                 <Text>Edit Information</Text>
                 <Ionicons name="chevron-forward" color="black" 
                 />
             </View>
         </Pressable>
-        
     </View>
   );
 }
