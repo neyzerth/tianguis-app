@@ -1,5 +1,9 @@
-# Agregar al .gitattributes
+# ignorar por linguist
 package-lock.json linguist-generated=true
-package-lock.json merge=npm-merge-driver
 *.sh linguist-vendored=true
 *.bat linguist-vendored=true
+
+package-lock.json merge=npm-merge-driver
+
+# Asegurarte de que el contenido de la carpeta react-native se cuente
+react-native/** linguist-vendored=false
