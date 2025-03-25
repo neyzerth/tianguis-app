@@ -1,26 +1,58 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
+import { supabase } from '../../config/supabase';
 import { TianguisColors } from '../../constants/TianguisColors';
 import CatalogHeader from '../../components/CatalogHeader';
 import CatalogItemsList from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
 export default function MyItems({ navigation }) {
-  const products = [
-    { id: '1', name: 'Lego Back to the future', price: 1200.00, image: '', state: 'available' },
-    { id: '2', name: 'Lego Speed Ford', price: 1500.00, image: '', state: 'sold' },
-    { id: '3', name: 'Lego Speed McLaren', price: 1300.00, image: '', state: 'available' },
-    { id: '4', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-    { id: '5', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-    { id: '6', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-    { id: '7', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-    { id: '8', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-    { id: '9', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-    { id: '10', name: 'Lego Speed Koenigsegg', price: 750.00, image: '', state: 'available' },
-  ];
-
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('available');
- 
+
+  useEffect(() => {
+    fetchMyItems();
+  }, []);
+
+  const fetchMyItems = async () => {
+    try {
+      setLoading(true);
+      // TODO: Replace with actual user ID from auth context
+      const userId = 1; // temporary user ID
+
+      const { data: items, error } = await supabase
+        .from('item')
+        .select(`
+          id,
+          name,
+          price,
+          selled,
+          disable,
+          created_at
+        `)
+        .eq('owner', userId)
+        .eq('disable', false)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const formattedItems = items.map(item => ({
+        id: item.id.toString(),
+        name: item.name,
+        price: parseFloat(item.price),
+        image: item.photo_url || '',
+        state: item.selled ? 'sold' : 'available'
+      }));
+
+      setProducts(formattedItems);
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredProducts = products.filter(product => product.state === activeFilter);
 
   return (
@@ -35,7 +67,6 @@ export default function MyItems({ navigation }) {
 
       <SearchBar placeholder="Search"/>
 
-      {/* Filtros */}
       <View style={styles.filterContainer}>
         <TouchableOpacity
           style={[
@@ -62,7 +93,11 @@ export default function MyItems({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <CatalogItemsList navigation={navigation} products={filteredProducts} />
+      <CatalogItemsList 
+        navigation={navigation} 
+        products={filteredProducts}
+        loading={loading}
+      />
     </View>
   );
 }
