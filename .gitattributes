@@ -1,3 +1,5 @@
 # Agregar al .gitattributes
 package-lock.json linguist-generated=true
 package-lock.json merge=npm-merge-driver
+*.sh linguist-vendored=true
+*.bat linguist-vendored=true
