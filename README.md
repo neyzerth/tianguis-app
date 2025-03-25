@@ -22,12 +22,12 @@ start.bat
 
 If you want to install the dependences, run:
 ```cmd
-start.sh --i
+start.bat --i
 ```
 
 If you want to re-install all the dependences, run:
 ```cmd
-start.sh --r
+start.bat --r
 ```
 
 #### Linux/Mac
