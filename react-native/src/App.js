@@ -11,6 +11,7 @@ import AddItem from './screens/seller/AddItem';
 //pantalla de Item individual
 import MyItems from './screens/seller/MyItems';
 import Item from './screens/seller/Item';
+import Saved from './screens/seller/Saved';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
         <Stack.Screen name="AddItem" component={AddItem} />
         <Stack.Screen name="MyItems" component={MyItems} />
         <Stack.Screen name="Item" component={Item} />
+        <Stack.Screen name="Saved" component={Saved} />
       </Stack.Navigator>
     </NavigationContainer>
   );

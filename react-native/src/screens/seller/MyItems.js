@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: TianguisColors.lightGrayBackground,
+    
   },
   filterContainer: {
     flexDirection: 'row',
