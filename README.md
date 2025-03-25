@@ -15,7 +15,13 @@
 ### With scripts
 
 #### Windows
-Run the script in cmd:
+>If you are using PowerShell, use the extension **.ps1** instead of **.bat**,
+>And you might need to enable script execution first:
+> ```ps1
+> Set-ExecutionPolicy RemoteSigned -Scope > CurrentUser
+> ```
+
+Run the script in cmd (*use .ps1 with PowerShell*):
 ```cmd
 start.bat
 ```
