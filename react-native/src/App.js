@@ -12,6 +12,8 @@ import AddItem from './screens/seller/AddItem';
 //pantalla de Item individual
 import MyItems from './screens/seller/MyItems';
 import Item from './screens/seller/Item';
+import Saved from './screens/seller/Saved';
+import EditItem from './screens/seller/EditItem';
 
 import CustomerBottomTab from './navigation/CustomerBottomTab';
 

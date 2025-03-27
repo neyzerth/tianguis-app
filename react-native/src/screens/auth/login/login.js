@@ -1,23 +1,60 @@
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Pressable, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import { BlackLogo } from '../../../components/Logo';
+import { supabase } from '../../../config/supabase';
 
 export default function Login() {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    console.log("Intento de login");
-    navigation.navigate('SellerHome');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
 
+    try {
+      setLoading(true);
+      
+      // Buscar usuario directamente en la tabla user
+      const { data: user, error } = await supabase
+        .from('user')
+        .select('*')
+        .eq('email', email)
+        .eq('password', password)
+        .single();
+
+      if (error) throw error;
+
+      if (user) {
+        // Guardar datos del usuario en localStorage o contexto global
+        console.log('Usuario logueado:', user);
+        
+        // Navegar según el rol
+        if (user.role === 'seller') {
+          navigation.navigate('SellerHome');
+        } else {
+          navigation.navigate('CustomerHome');
+        }
+      } else {
+        Alert.alert('Error', 'Invalid credentials');
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <View style={styles.container}>
         <BlackLogo/>
         <Text style={styles.title}>Log in</Text>
-        <Text style={styles.subtitle}>Log in with social networks</Text>
+        
         <View style={styles.social}>
             <Pressable style={styles.btnSocial}>
                 <Icon name="facebook" size={30} color="#fff" />
@@ -29,20 +66,39 @@ export default function Login() {
                 <Icon name="google" size={30} color="#fff" />
             </Pressable>
         </View>
-        <Text style={styles.subtitle}>Or</Text>
-        <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
-        <TextInput style={styles.input} placeholder="Password" secureTextEntry={true} />
-        <Pressable style={styles.btnForgot}>
-            <Text style={styles.btnForgotText}>Forgot Password?</Text>
-        </Pressable>
+
+        <TextInput 
+            style={styles.input} 
+            placeholder="Email" 
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+        />
         
-        <Pressable style={styles.btnLogin} onPress={handleLogin}>
-            <Text style={styles.btnLoginText}>Log in</Text>
-        </Pressable>
+        <TextInput 
+            style={styles.input} 
+            placeholder="Password" 
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+            autoCapitalize="none"
+        />
         
+        <Pressable 
+            style={[styles.btnLogin, loading && styles.btnDisabled]} 
+            onPress={handleLogin}
+            disabled={loading}
+        >
+            <Text style={styles.btnLoginText}>
+                {loading ? 'Loading...' : 'Log in'}
+            </Text>
+        </Pressable>
+
         <Pressable style={styles.btnSignup} onPress={() => navigation.navigate('Signup')}>
             <Text style={styles.btnSignupText}>Sign up</Text>
         </Pressable>
+      
     </View>
   );
 }

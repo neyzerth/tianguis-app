@@ -7,7 +7,8 @@ export const TianguisColors = {
   white: '#ffffff',
   lightGray: '#f5f5f5',
   gray: '#aaaaaa',
-  black: '#000000'
+  black: '#000000',
+  green: '#81C784'
 };
 
 // TextBox personalizado
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    width: 350,
+    width: '90%',
     margin: 12,
     borderRadius: 15,
     padding: 10,
