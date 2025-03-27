@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MyItems from '../screens/seller/MyItems';
 import MyStands from '../screens/seller/MyStands';
 import Profile from '../screens/seller/Profile';
+import EditProfile from '../screens/seller/EditProfile'; 
 import WhatDoYouSell from '../screens/seller/whatDoYouSell';
 import WhereDoYouSell from '../screens/seller/whereDoYouSell';
 
@@ -21,6 +22,16 @@ function StandsStackNavigator() {
       <Stack.Screen name="StandsHome" component={MyStands} />
       <Stack.Screen name="WhatDoYouSell" component={WhatDoYouSell} />
       <Stack.Screen name="WhereDoYouSell" component={WhereDoYouSell} />
+    </Stack.Navigator>
+  );
+}
+
+// New ProfileStackNavigator
+function ProfileStackNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ProfileHome" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
   );
 }
@@ -57,7 +68,7 @@ export default function SellerNavigator() {
       />
       <Tab.Screen 
         name="Profile" 
-        component={Profile} 
+        component={ProfileStackNavigator} 
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
