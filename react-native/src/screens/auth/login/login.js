@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import { BlackLogo } from '../../../components/Logo';
 import { supabase } from '../../../config/supabase';
@@ -51,37 +52,53 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <BlackLogo/>
-      <Text style={styles.title}>Log in</Text>
-      
-      <TextInput 
-        style={styles.input} 
-        placeholder="Email" 
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      
-      <TextInput 
-        style={styles.input} 
-        placeholder="Password" 
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
-      
-      <Pressable 
-        style={[styles.btnLogin, loading && styles.btnDisabled]} 
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        <Text style={styles.btnLoginText}>
-          {loading ? 'Loading...' : 'Log in'}
-        </Text>
-      </Pressable>
+        <BlackLogo/>
+        <Text style={styles.title}>Log in</Text>
+        
+        <View style={styles.social}>
+            <Pressable style={styles.btnSocial}>
+                <Icon name="facebook" size={30} color="#fff" />
+            </Pressable>
+            <Pressable style={styles.btnSocial}>
+                <Icon name="instagram" size={30} color="#fff" />
+            </Pressable>
+            <Pressable style={styles.btnSocial}>
+                <Icon name="google" size={30} color="#fff" />
+            </Pressable>
+        </View>
 
-      {/* Resto de tus componentes */}
+        <TextInput 
+            style={styles.input} 
+            placeholder="Email" 
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+        />
+        
+        <TextInput 
+            style={styles.input} 
+            placeholder="Password" 
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+            autoCapitalize="none"
+        />
+        
+        <Pressable 
+            style={[styles.btnLogin, loading && styles.btnDisabled]} 
+            onPress={handleLogin}
+            disabled={loading}
+        >
+            <Text style={styles.btnLoginText}>
+                {loading ? 'Loading...' : 'Log in'}
+            </Text>
+        </Pressable>
+
+        <Pressable style={styles.btnSignup} onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.btnSignupText}>Sign up</Text>
+        </Pressable>
+      
     </View>
   );
 }
