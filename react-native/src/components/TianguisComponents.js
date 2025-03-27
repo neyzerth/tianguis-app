@@ -12,13 +12,23 @@ export const TianguisColors = {
 };
 
 // TextBox personalizado
-export function TextBox({ placeholder, keyboardType = 'default', secureText = false }) {
+export function TextBox({ 
+    placeholder, 
+    keyboardType = 'default', 
+    secureText = false,
+    value,
+    onChangeText,
+    autoCapitalize
+}) {
   return (
     <TextInput 
       style={styles.input} 
       placeholder={placeholder} 
       keyboardType={keyboardType}
       secureTextEntry={secureText}
+      value={value}
+      onChangeText={onChangeText}
+      autoCapitalize={autoCapitalize}
     />
   );
 }
