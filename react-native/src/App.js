@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Splash from './screens/Splash';
 import Login from './screens/auth/login/login';
 import Signup from './screens/auth/signup/signup';
-import SellerNavigator from './navigation/sellerNavigator';
 import ItemsNearMe from './screens/customer/ItemsNearMe';
 import AddItem from './screens/seller/AddItem';
 
@@ -15,6 +14,9 @@ import Item from './screens/seller/Item';
 import Saved from './screens/seller/Saved';
 import EditItem from './screens/seller/EditItem';
 
+//Navigators
+import SellerNavigator from './navigation/sellerNavigator';
+import CustomerNavigation from './navigation/CustomerNavigation';
 import CustomerBottomTab from './navigation/CustomerBottomTab';
 
 const Stack = createStackNavigator();
@@ -42,7 +44,8 @@ export default function App() {
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="SellerHome" component={SellerNavigator} />
+        <Stack.Screen name="SellerNavigation" component={SellerNavigator} />
+        <Stack.Screen name="CustomerNavigation" component={CustomerNavigation} />
         <Stack.Screen name="ItemsNearMe" component={ItemsNearMe} />
         <Stack.Screen name="AddItem" component={AddItem} />
         <Stack.Screen name="MyItems" component={MyItems} />
