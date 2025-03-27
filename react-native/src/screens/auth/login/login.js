@@ -36,9 +36,9 @@ export default function Login() {
         
         // Navegar según el rol
         if (user.role === 'seller') {
-          navigation.navigate('SellerHome');
+          navigation.navigate('SellerNavigation');
         } else {
-          navigation.navigate('CustomerHome');
+          navigation.navigate('CustomerNavigation');
         }
       } else {
         Alert.alert('Error', 'Invalid credentials');
