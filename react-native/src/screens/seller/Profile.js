@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   // ejemplo
   const user = {
     firstName: 'Jack',
@@ -12,15 +12,16 @@ export default function Profile() {
     profileImage: 'https://via.placeholder.com/150'
   };
 
+  const handleEditPress = () => {
+    navigation.navigate('EditProfile', { user });
+  };
+
   return (
     <View style={styles.container}>
       {/* Header con título y botón de editar */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
         <Text style={styles.title}>Profile</Text>
-        <TouchableOpacity style={styles.editButton}>
+        <TouchableOpacity style={styles.editButton} onPress={handleEditPress}>
           <Text style={styles.editButtonText}>Edit</Text>
         </TouchableOpacity>
       </View>
@@ -28,7 +29,7 @@ export default function Profile() {
       <ScrollView>
         {/* Foto de perfil y nombre */}
         <View style={styles.profileSection}>
-          <Image
+          <Image 
             source={{ uri: user.profileImage }}
             style={styles.profileImage}
           />

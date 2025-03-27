@@ -6,6 +6,7 @@ import Splash from './screens/Splash';
 import Login from './screens/auth/login/login';
 import Signup from './screens/auth/signup/signup';
 import SellerNavigator from './navigation/sellerNavigator';
+import ItemsNearMe from './screens/customer/ItemsNearMe';
 import AddItem from './screens/seller/AddItem';
 
 //pantalla de Item individual
@@ -13,6 +14,8 @@ import MyItems from './screens/seller/MyItems';
 import Item from './screens/seller/Item';
 import Saved from './screens/seller/Saved';
 import EditItem from './screens/seller/EditItem';
+
+import CustomerBottomTab from './navigation/CustomerBottomTab';
 
 const Stack = createStackNavigator();
 
@@ -40,11 +43,11 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="SellerHome" component={SellerNavigator} />
+        <Stack.Screen name="ItemsNearMe" component={ItemsNearMe} />
         <Stack.Screen name="AddItem" component={AddItem} />
         <Stack.Screen name="MyItems" component={MyItems} />
         <Stack.Screen name="Item" component={Item} />
-        <Stack.Screen name="Saved" component={Saved} />
-        <Stack.Screen name="EditItem" component={EditItem} />
+        <Stack.Screen name="CustomerBottomTab" component={CustomerBottomTab} />
       </Stack.Navigator>
     </NavigationContainer>
   );
