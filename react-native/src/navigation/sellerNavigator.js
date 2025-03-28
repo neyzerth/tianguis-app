@@ -11,7 +11,9 @@ import Profile from '../screens/seller/Profile';
 
 const Tab = createBottomTabNavigator();
 
-export default function SellerNavigator() {
+export default function SellerNavigator({ route }) {
+  const userId = route.params?.userId;
+
   return (
     <Tab.Navigator
       initialRouteName="MyItems"
@@ -24,6 +26,7 @@ export default function SellerNavigator() {
       <Tab.Screen 
         name="MyItems" 
         component={MyItems} 
+        initialParams={{ userId }}
         options={{
           title: "My Items",
           tabBarIcon: ({ color, size }) => (
@@ -34,6 +37,7 @@ export default function SellerNavigator() {
       <Tab.Screen 
         name="MyStands" 
         component={MyStands} 
+        initialParams={{ userId }}
         options={{
           title: "My Stands",
           tabBarIcon: ({ color, size }) => (
@@ -44,6 +48,7 @@ export default function SellerNavigator() {
       <Tab.Screen 
         name="Profile" 
         component={Profile} 
+        initialParams={{ userId }}
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
