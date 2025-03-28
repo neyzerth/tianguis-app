@@ -71,9 +71,6 @@ export default function Profile({ navigation, route }) {
     <View style={styles.container}>
       {/* Header con título y botón de editar */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
         <Text style={styles.title}>Profile</Text>
         <TouchableOpacity style={styles.editButton}
           onPress={() => navigation.navigate('EditProfile', { userData })}>
