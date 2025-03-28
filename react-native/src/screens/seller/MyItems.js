@@ -40,7 +40,7 @@ export default function MyItems({ navigation, route }) {
         id: item.id.toString(),
         name: item.name,
         price: parseFloat(item.price),
-        image: item.photo_url || '',
+        image: 'https://maimcwzoauqmeswhzyah.supabase.co/storage/v1/object/public/photos/items/' + item.id.toString() + '.png' || '',
         state: item.selled ? 'sold' : 'available'
       }));
 
