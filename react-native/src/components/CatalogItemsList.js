@@ -56,6 +56,9 @@ export default function CatalogItemsList({ navigation, products, onToggleFavorit
 }
 
 const styles = StyleSheet.create({
+  container:{
+    marginBottom: 200
+  },
   productsList: {
     paddingHorizontal: 8,
   },
