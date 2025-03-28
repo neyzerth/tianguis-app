@@ -36,7 +36,9 @@ function ProfileStackNavigator() {
   );
 }
 
-export default function SellerNavigator() {
+export default function SellerNavigator({ route }) {
+  const userId = route.params?.userId;
+
   return (
     <Tab.Navigator
       initialRouteName="MyItems"
@@ -49,6 +51,7 @@ export default function SellerNavigator() {
       <Tab.Screen 
         name="MyItems" 
         component={MyItems} 
+        initialParams={{ userId }}
         options={{
           title: "My Items",
           tabBarIcon: ({ color, size }) => (
@@ -58,6 +61,7 @@ export default function SellerNavigator() {
       />
       <Tab.Screen 
         name="MyStands" 
+        initialParams={{ userId }}
         component={StandsStackNavigator} 
         options={{
           title: "My Stands",
@@ -68,6 +72,7 @@ export default function SellerNavigator() {
       />
       <Tab.Screen 
         name="Profile" 
+        initialParams={{ userId }}
         component={ProfileStackNavigator} 
         options={{
           title: "Profile",

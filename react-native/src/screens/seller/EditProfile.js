@@ -1,191 +1,144 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, SafeAreaView, Platform, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { supabase } from '../../config/supabase';
+import { TianguisButton, TianguisColors } from '../../components/TianguisComponents';
 
-export default function EditProfile({ navigation, route }) {
-  const userFromParams = route.params?.user;
+export default function EditProfile({ route, navigation }) {
+  const { userData } = route.params;
   
-  const [userData, setUserData] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    profileImage: 'https://via.placeholder.com/150'
+  const [formData, setFormData] = useState({
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    phone: userData.phone,
+    email: userData.email,
   });
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (userFromParams) {
-      setUserData(userFromParams);
+  const handleChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      
+      const { error } = await supabase
+        .from('user')
+        .update({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          phone: formData.phone,
+          email: formData.email
+        })
+        .eq('id', userData.id);
+
+      if (error) throw error;
+
+      Alert.alert('Success', 'Profile updated successfully!');
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
     }
-  }, [userFromParams]);
-
-  const handleChange = (field, value) => {
-    setUserData(prevData => ({
-      ...prevData,
-      [field]: value
-    }));
-  };
-
-  const handleSave = () => {
-    console.log('Saving user data:', userData);
-    navigation.goBack();
-  };
-
-  const handleCancel = () => {
-    navigation.goBack();
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Change photo</Text>
-        <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
-          <Text style={styles.cancelButtonText}>Cancel</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
+        <Text style={styles.title}>Edit Profile</Text>
       </View>
-      
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.profileSection}>
-          <Image 
-            source={{ uri: userData.profileImage }} 
-            style={styles.profileImage} 
+
+      <View style={styles.formContainer}>
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>First Name</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.firstName}
+            onChangeText={(text) => handleChange('firstName', text)}
           />
-          <TouchableOpacity style={styles.changePhotoButton}>
-            <Text style={styles.changePhotoText}>Change photo</Text>
-          </TouchableOpacity>
         </View>
-        
-        <View style={styles.formContainer}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>First name</Text>
-            <TextInput
-              style={styles.input}
-              value={userData.firstName}
-              onChangeText={(text) => handleChange('firstName', text)}
-              placeholder="First name"
-            />
-          </View>
-          
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Last name</Text>
-            <TextInput
-              style={styles.input}
-              value={userData.lastName}
-              onChangeText={(text) => handleChange('lastName', text)}
-              placeholder="Last name"
-            />
-          </View>
-          
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Phone</Text>
-            <TextInput
-              style={styles.input}
-              value={userData.phone}
-              onChangeText={(text) => handleChange('phone', text)}
-              placeholder="Phone number"
-              keyboardType="phone-pad"
-            />
-          </View>
-          
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              value={userData.email}
-              onChangeText={(text) => handleChange('email', text)}
-              placeholder="Email address"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
+
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Last Name</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.lastName}
+            onChangeText={(text) => handleChange('lastName', text)}
+          />
         </View>
-      </ScrollView>
-      
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Save</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Phone</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.phone}
+            onChangeText={(text) => handleChange('phone', text)}
+            keyboardType="phone-pad"
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.email}
+            onChangeText={(text) => handleChange('email', text)}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+        <TianguisButton text="Save" color={TianguisColors.green} onPress={handleSubmit}></TianguisButton>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop:50,
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'android' ? 40 : 0,
-    paddingBottom: 15,
-    position: 'relative',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-  },
-  cancelButton: {
-    position: 'absolute',
-    right: 16,
-    top: Platform.OS === 'android' ? 40 : 0,
-    backgroundColor: '#ff3b30',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-  },
-  cancelButtonText: {
-    color: '#fff',
-    fontWeight: '500',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  profileSection: {
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#e0e0e0',
-  },
-  changePhotoButton: {
-    marginTop: 10,
-  },
-  changePhotoText: {
-    color: '#333',
-    fontSize: 16,
+    width: '80%',
+    marginRight: 35,
+    textAlign: 'center'
+    
   },
   formContainer: {
-    paddingHorizontal: 20,
+    padding: 16,
   },
   inputGroup: {
     marginBottom: 16,
   },
-  label: {
-    fontSize: 12,
+  inputLabel: {
+    fontSize: 14,
     color: '#888',
     marginBottom: 4,
   },
   input: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f0f0f0',
     borderRadius: 8,
     padding: 16,
     fontSize: 16,
-  },
-  saveButton: {
-    backgroundColor: '#4cd964',
-    margin: 20,
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
