@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import ItemsNearMe from '../screens/customer/ItemsNearMe';
-import Favorites from '../screens/customer/Favorites';
-import Profile from '../screens/customer/Profile';
+//import Favorites from '../screens/customer/Favorites';
+//import Profile from '../screens/customer/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,26 +36,26 @@ export default function CustomerBottomTab() {
           ),
         }}
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Favorites" 
-        component={Favorites} 
+        //component={Favorites} 
         options={{
           title: "Favorites",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="heart-outline" size={size} color={color} />
           ),
         }}
-      />
-      <Tab.Screen 
+      /> */}
+      {/* <Tab.Screen 
         name="Profile" 
-        component={Profile} 
+        //component={Profile} 
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
