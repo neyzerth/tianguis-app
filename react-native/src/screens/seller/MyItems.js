@@ -6,7 +6,7 @@ import CatalogHeader from '../../components/CatalogHeader';
 import CatalogItemsList from '../../components/CatalogItemsList';
 import SearchBar from '../../components/SearchBar';
 
-export default function MyItems({ navigation }) {
+export default function MyItems({ navigation, route }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('available');
@@ -18,8 +18,7 @@ export default function MyItems({ navigation }) {
   const fetchMyItems = async () => {
     try {
       setLoading(true);
-      // TODO: Replace with actual user ID from auth context
-      const userId = 1; // temporary user ID
+      const userId = route.params?.userId;
 
       const { data: items, error } = await supabase
         .from('item')
@@ -41,7 +40,7 @@ export default function MyItems({ navigation }) {
         id: item.id.toString(),
         name: item.name,
         price: parseFloat(item.price),
-        image: item.photo_url || '',
+        image: 'https://maimcwzoauqmeswhzyah.supabase.co/storage/v1/object/public/photos/items/' + item.id.toString() + '.png' || '',
         state: item.selled ? 'sold' : 'available'
       }));
 

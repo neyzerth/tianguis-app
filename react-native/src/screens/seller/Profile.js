@@ -1,27 +1,79 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { supabase } from '../../config/supabase';
 
-export default function Profile({ navigation }) {
-  // ejemplo
-  const user = {
-    firstName: 'Jack',
-    lastName: 'Box',
-    phone: '6648881559',
-    email: 'jackbox@gmail.com',
-    profileImage: 'https://via.placeholder.com/150'
+export default function Profile({ navigation, route }) {
+  
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState({
+    id: route.params?.userId,
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    avatar: ''
+  });
+
+  const fetchUserData = async () => {
+    try {
+      setLoading(true);
+      
+      const { data: user, error } = await supabase
+        .from('user')
+        .select('*')
+        .eq('id', userData.id)
+        .single();
+
+      if (error) throw error;
+
+      if (user) {
+        const avatarUrl = 'https://maimcwzoauqmeswhzyah.supabase.co/storage/v1/object/public/photos/avatar/profile';
+        
+        setUserData({
+          id: user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          phone: user.phone,
+          email: user.email,
+          avatar: avatarUrl + user.avatar + '.png' 
+        });
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message);
+      console.error('Error fetching user data:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   };
 
-  const handleEditPress = () => {
-    navigation.navigate('EditProfile', { user });
-  };
+  useEffect(() => {
+    fetchUserData();
+    
+    // Recargar datos cuando la pantalla recibe foco
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchUserData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       {/* Header con título y botón de editar */}
       <View style={styles.header}>
         <Text style={styles.title}>Profile</Text>
-        <TouchableOpacity style={styles.editButton} onPress={handleEditPress}>
+        <TouchableOpacity style={styles.editButton}
+          onPress={() => navigation.navigate('EditProfile', { userData })}>
           <Text style={styles.editButtonText}>Edit</Text>
         </TouchableOpacity>
       </View>
@@ -29,33 +81,33 @@ export default function Profile({ navigation }) {
       <ScrollView>
         {/* Foto de perfil y nombre */}
         <View style={styles.profileSection}>
-          <Image 
-            source={{ uri: user.profileImage }}
+          <Image
+            source={{ uri: userData.avatar }}
             style={styles.profileImage}
           />
-          <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
+          <Text style={styles.userName}>{userData.firstName} {userData.lastName}</Text>
         </View>
 
         {/* Información del usuario */}
         <View style={styles.infoSection}>
           <View style={styles.infoField}>
             <Text style={styles.fieldLabel}>First name</Text>
-            <Text style={styles.fieldValue}>{user.firstName}</Text>
+            <Text style={styles.fieldValue}>{userData.firstName}</Text>
           </View>
           
           <View style={styles.infoField}>
             <Text style={styles.fieldLabel}>Last name</Text>
-            <Text style={styles.fieldValue}>{user.lastName}</Text>
+            <Text style={styles.fieldValue}>{userData.lastName}</Text>
           </View>
           
           <View style={styles.infoField}>
             <Text style={styles.fieldLabel}>Phone</Text>
-            <Text style={styles.fieldValue}>{user.phone}</Text>
+            <Text style={styles.fieldValue}>{userData.phone}</Text>
           </View>
           
           <View style={styles.infoField}>
             <Text style={styles.fieldLabel}>Email</Text>
-            <Text style={styles.fieldValue}>{user.email}</Text>
+            <Text style={styles.fieldValue}>{userData.email}</Text>
           </View>
         </View>
       </ScrollView>

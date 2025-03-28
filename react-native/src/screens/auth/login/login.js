@@ -36,9 +36,9 @@ export default function Login() {
         
         // Navegar según el rol
         if (user.role === 'seller') {
-          navigation.navigate('SellerNavigation');
+          navigation.navigate('SellerNavigation', { userId: user.id });
         } else {
-          navigation.navigate('CustomerNavigation');
+          navigation.navigate('CustomerNavigation', { userId: user.id });
         }
       } else {
         Alert.alert('Error', 'Invalid credentials');

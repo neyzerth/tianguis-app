@@ -16,10 +16,12 @@ import WhereDoYouSell from '../screens/seller/whereDoYouSell';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function StandsStackNavigator() {
+function StandsStackNavigator({ route }) {
+  const userId = route.params?.userId;
+  
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="StandsHome" component={MyStands} />
+      <Stack.Screen name="StandsHome" component={MyStands} initialParams={{ userId }} />
       <Stack.Screen name="WhatDoYouSell" component={WhatDoYouSell} />
       <Stack.Screen name="WhereDoYouSell" component={WhereDoYouSell} />
     </Stack.Navigator>
@@ -27,16 +29,20 @@ function StandsStackNavigator() {
 }
 
 // New ProfileStackNavigator
-function ProfileStackNavigator() {
+function ProfileStackNavigator({ route }) {
+  const userId = route.params?.userId;
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="ProfileHome" component={Profile} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="ProfileHome" component={Profile} initialParams={{ userId }} />
+      <Stack.Screen name="EditProfile" component={EditProfile} initialParams={{ userId }} />
     </Stack.Navigator>
   );
 }
 
-export default function SellerNavigator() {
+export default function SellerNavigator({ route }) {
+  const userId = route.params?.userId;
+
   return (
     <Tab.Navigator
       initialRouteName="MyItems"
@@ -49,6 +55,7 @@ export default function SellerNavigator() {
       <Tab.Screen 
         name="MyItems" 
         component={MyItems} 
+        initialParams={{ userId }}
         options={{
           title: "My Items",
           tabBarIcon: ({ color, size }) => (
@@ -58,6 +65,7 @@ export default function SellerNavigator() {
       />
       <Tab.Screen 
         name="MyStands" 
+        initialParams={{ userId }}
         component={StandsStackNavigator} 
         options={{
           title: "My Stands",
@@ -68,6 +76,7 @@ export default function SellerNavigator() {
       />
       <Tab.Screen 
         name="Profile" 
+        initialParams={{ userId }}
         component={ProfileStackNavigator} 
         options={{
           title: "Profile",

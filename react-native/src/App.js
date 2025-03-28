@@ -13,6 +13,7 @@ import MyItems from './screens/seller/MyItems';
 import Item from './screens/seller/Item';
 import Saved from './screens/seller/Saved';
 import EditItem from './screens/seller/EditItem';
+import EditProfile from './screens/seller/EditProfile';
 
 //Navigators
 import SellerNavigator from './navigation/sellerNavigator';
@@ -50,6 +51,9 @@ export default function App() {
         <Stack.Screen name="AddItem" component={AddItem} />
         <Stack.Screen name="MyItems" component={MyItems} />
         <Stack.Screen name="Item" component={Item} />
+        <Stack.Screen name="Saved" component={Saved} />
+        <Stack.Screen name="EditItem" component={EditItem} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="CustomerBottomTab" component={CustomerBottomTab} />
       </Stack.Navigator>
     </NavigationContainer>
