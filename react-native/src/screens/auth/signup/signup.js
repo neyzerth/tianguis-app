@@ -44,7 +44,8 @@ export default function SignupScreen() {
             email: email,
             password: password,
             phone: phone,
-            role: role
+            role: role,
+            avatar: getRandomInt(5) + 1
           }
         ])
         .select()
@@ -52,15 +53,16 @@ export default function SignupScreen() {
 
       if (error) throw error;
 
-      // Navigate based on role
-      if (role === 'seller') {
-        navigation.navigate('SellerNavigation');
-      } else {
-        navigation.navigate('CustomerNavigation');
-      }
+      // Mandarlo al inicio de sesión
+      navigation.navigate('Login');
       
     } catch (error) {
       Alert.alert('Error', error.message);
+    }
+
+    //Función de número random para asignar un avatar aleatorio
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
     }
   };
   
